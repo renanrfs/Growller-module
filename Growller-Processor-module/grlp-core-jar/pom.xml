@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>Growller-Processor-module</artifactId>
+		<groupId>pt.consulting.growller.processor</groupId>
+		<version>1.0.0</version>
+	</parent>
+
+	<groupId>pt.consulting.growller.processor</groupId>
+	<artifactId>grlp-core-jar</artifactId>
+	<packaging>ejb</packaging>
+
+	<name>Growller-Processor [ core-jar ]</name>
+
+	<!-- -->
+	<!-- Specific dependencies project -->
+	<!-- -->
+	<dependencies>
+		<!-- Library Project -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.ejb</groupId>
+			<artifactId>javax.ejb-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>pt.library.core</groupId>
+			<artifactId>library-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>pt.consulting.growller.processor</groupId>
+			<artifactId>grlp-msg-jar</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>pt.consulting.growller.processor</groupId>
+			<artifactId>grlp-dao-jar</artifactId>
+		</dependency>
+	</dependencies>
+
+	<!-- -->
+	<!-- Build configuration -->
+	<!-- -->
+	<build>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<ejbVersion>3.1</ejbVersion>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

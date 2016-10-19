@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Growller.install" default="growller.setup">
+	<property file="build.properties" />
+
+	<!-- Download JDBC driver jar-->
+	<target name="growller.setup" depends="install.jboss,install.db.files,prepare.project.files">
+		<echo message="Growller setup is completed!" />
+	</target>
+
+	
+	<!-- ############ DOWNLOAD ############ -->
+
+	<!-- Download JDBC driver jar-->
+	<target name="download.db.driver.check">
+		<echo message="Checking if db driver jar has been downloaded ...${db.driver.jar}" />
+		<condition property="db.driver.not.available">
+			<not>
+				<available file="${db.driver.jar}" />
+			</not>
+		</condition>
+	</target>
+
+	<target name="download.db.driver" depends="download.db.driver.check" if="db.driver.not.available">
+		<echo message="Getting ${db.driver.jar.name} driver jar..." />
+		<mkdir dir="${db.driver}" />
+		<get src="${db.driver.download.url}" dest="${db.driver.jar}" />
+	</target>
+
+	<!-- Download JBoss AS -->
+	<target name="check.jboss.version">
+		<condition property="jboss.version.is.5">
+			<equals arg1="${jboss.server.version}" arg2="${jboss.server.version.5}" />
+		</condition>
+		<condition property="jboss.version.is.7">
+			<equals arg1="${jboss.server.version}" arg2="${jboss.server.version.7}" />
+		</condition>
+	</target>
+	<target name="download.jboss.check">
+		<echo message="Checking JBoss AS download ..." />
+		<condition property="jboss.not.available">
+			<not>
+				<available file="${as.home}/jboss-as-${jboss.server.version}.zip" />
+			</not>
+		</condition>
+	</target>
+	<target name="download.jboss" depends="download.jboss.check" if="jboss.not.available">
+		<echo message="Getting JBoss AS ..." />
+		<mkdir dir="${as.home}" />
+		<get src="${jboss.download.url}" dest="${as.home}/jboss-as-${jboss.server.version}.zip" />
+	</target>
+
+	<!-- ############ INSTALL ############ -->
+
+	<!-- Install JDBC driver jar-->
+	<target name="install.db.files" depends="check.jboss.version,download.db.driver" unless="jboss.version.is.5">
+		<property name="db.driver.installed" value="true" />
+	</target>
+
+	<!-- Install JBoss AS -->
+	<target name="install.jboss" depends="download.jboss">
+		<unzip src="${as.home}/jboss-as-${jboss.server.version}.zip" dest="${as.home}" />
+		<chmod perm="a+x" file="${jboss.home}/bin/run.sh" />
+		<chmod perm="a+x" file="${jboss.home}/bin/shutdown.sh" />
+		<chmod perm="a+x" file="${jboss.home}/bin/standalone.sh" />
+		<chmod perm="a+x" file="${jboss.home}/bin/jboss-cli.sh" />
+	</target>
+
+	<!-- ############ PREPARE ENVIRONMENT ############ -->
+
+	<!-- Prepare project files -->
+	<target name="prepare.project.files" depends="db.driver.deploy,ds.deploy">
+		<echo message="Project is ready!!!" />
+	</target>
+	<!-- Copy db driver jar -->
+	<target name="db.driver.deploy">
+		<echo message="Copy db driver to AS lib dir..." />
+		<copy file="${db.driver.jar}" todir="${jboss.server.lib.dir}" />
+	</target>
+	<!-- Copy datasource file -->
+	<target name="ds.deploy">
+		<echo message="Copy datasource to AS deploy dir..." />
+		<copy file="${ds.file}" todir="${jboss.server.deploy.dir}" />
+	</target>
+
+</project>

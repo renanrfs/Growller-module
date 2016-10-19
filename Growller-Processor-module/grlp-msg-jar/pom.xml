@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>Growller-Processor-module</artifactId>
+		<groupId>pt.consulting.growller.processor</groupId>
+		<version>1.0.0</version>
+	</parent>
+
+	<groupId>pt.consulting.growller.processor</groupId>
+	<artifactId>grlp-msg-jar</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Growller-Processor [ msg-jar ]</name>
+
+	<!-- -->
+	<!-- Specific dependencies project -->
+	<!-- -->
+	<dependencies>
+		<!-- Library Project -->
+		<dependency>
+			<groupId>pt.library.core</groupId>
+			<artifactId>library-core</artifactId>
+		</dependency>
+	</dependencies>
+</project>
